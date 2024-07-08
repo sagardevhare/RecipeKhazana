@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block search_bar %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <form method="GET" action="{% url 'recipe_search' %}" class="d-flex">
+            <input class="form-control me-2" type="search" placeholder="Search for a dish name or ingredients" aria-label="Search" name="q">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<!-- Page specific content goes here -->
+{% endblock %}
+
+{% block latest_recipes %}
+<div class="row mt-5">
+    <h2>Latest Recipes</h2>
+    {% for recipe in latest_recipes %}
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <img src="{{ recipe.image.url }}" class="card-img-top" alt="{{ recipe.title }}">
+            <div class="card-body">
+                <h5 class="card-title">{{ recipe.title }}</h5>
+                <p class="card-text">{{ recipe.description|truncatewords:20 }}</p>
+                <a href="{% url 'recipe_detail' recipe.id %}" class="btn btn-primary">View Recipe</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,174 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe App</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        h1, h2, h3, h4, h5, h6 {
+            font-family: "Space Grotesk", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        .background-image {
+            background: url('{% static "img/background.jpg" %}') no-repeat center center;
+            background-size: cover;
+            height: 400px;
+            width: 100%;
+            position: relative;
+        }
+
+        .search-bar-container {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 600px;
+            background: rgba(255, 255, 255, 0.5); /* Semi-transparent background */
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .search-bar-container input {
+            background: rgba(255, 255, 255, 0.8); /* Semi-transparent input background */
+        }
+
+        .search-bar-container button {
+            background: #28a745; /* Change to the color you want */
+            color: white;
+        }
+
+        .search-bar-container button:hover {
+            background: #218838; /* Darker shade on hover */
+        }
+        
+        .content-section {
+            padding-top: 20px;
+            margin-top: 20px; 
+        }
+
+        
+
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            {% load static %}
+            <a class="navbar-brand" href="{% url 'recipe_list' %}"><img src="{% static 'img/logo.jpg' %}" alt="Your Logo" height="40">Recipe Khazana</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'recipe_create' %}">Add Recipe</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'register' %}">Register</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">Login</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container mt-4">
+        {% block search_bar %}
+        <div class="background-image">
+            <div class="search-bar-container">
+                <form method="GET" action="{% url 'recipe_search' %}" class="d-flex">
+                    <input class="form-control me-2" type="search" placeholder="Search for a dish name or ingredients" aria-label="Search" name="q">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+        {% endblock %}
+        
+        <div class="roww mt-5">
+            {% block content %}
+            {% endblock %}
+        </div>
+        
+        {% block latest_recipes %}
+        <div class="row mt-5">
+            <h2>Latest Recipes</h2>
+            {% for recipe in latest_recipes %}
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="{{ recipe.image.url }}" class="card-img-top" alt="{{ recipe.title }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ recipe.title }}</h5>
+                        <p class="card-text">{{ recipe.description|truncatewords:20 }}</p>
+                        <a href="{% url 'recipe_detail' recipe.id %}" class="btn btn-primary">View Recipe</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endblock %}
+    </div>
+
+    <footer class="bg-light text-center text-lg-start mt-4">
+        <div class="container p-4">
+            <div class="row">
+                <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
+                    <h5 class="text-uppercase">About Recipe Khazana</h5>
+                    <p>
+                        Recipe Khazana is your go-to app for delicious recipes from around the world. Join our community to share and discover amazing dishes!
+                    </p>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                    <h5 class="text-uppercase">Quick Links</h5>
+                    <ul class="list-unstyled mb-0">
+                        <li>
+                            <a href="{% url 'recipe_list' %}" class="text-dark">Home</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'recipe_create' %}" class="text-dark">Add Recipe</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'register' %}" class="text-dark">Register</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'login' %}" class="text-dark">Login</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                    <h5 class="text-uppercase">Contact Us</h5>
+                    <ul class="list-unstyled mb-0">
+                        <li>
+                            <a href="#!" class="text-dark">Email: info@recipekhazana.com</a>
+                        </li>
+                        <li>
+                            <a href="#!" class="text-dark">Phone: +123 456 7890</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+            © 2024 Recipe Khazana
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

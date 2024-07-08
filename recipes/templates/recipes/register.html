@@ -1,0 +1,136 @@
+{% extends 'recipes/base.html' %}
+{% block search_bar %}
+<!-- No search bar on this page -->
+{% endblock %}
+
+{% block content %}
+<style>
+  .reg {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .register-card {
+    width: 400px;
+    margin: 80px auto;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    background-color: #fff; /* Adding background color to the card */
+  }
+
+  .form-group {
+    position: relative;
+    margin-bottom: 1.5rem;
+  }
+
+  .form-group input {
+    width: 100%;
+    padding: 10px 10px 10px 5px;
+    display: block;
+    border: none;
+    border-bottom: 1px solid #757575;
+    background: transparent;
+    font-size: 16px;
+  }
+
+  .form-group input:focus {
+    outline: none;
+  }
+
+  .form-group label {
+    color: #999;
+    font-size: 16px;
+    font-weight: normal;
+    position: absolute;
+    pointer-events: none;
+    left: 5px;
+    top: 10px;
+    transition: 0.2s ease all;
+  }
+
+  .form-group input:focus ~ label, 
+  .form-group input:valid ~ label {
+    top: -20px;
+    font-size: 12px;
+    color: #5264AE;
+  }
+
+  .form-group .bar {
+    position: relative;
+    display: block;
+    width: 100%;
+  }
+
+  .form-group .bar:before, .form-group .bar:after {
+    content: '';
+    height: 2px;
+    width: 0;
+    bottom: 1px;
+    position: absolute;
+    background: #5264AE;
+    transition: 0.2s ease all;
+  }
+
+  .form-group .bar:before {
+    left: 50%;
+  }
+
+  .form-group .bar:after {
+    right: 50%;
+  }
+
+  .form-group input:focus ~ .bar:before, .form-group input:focus ~ .bar:after {
+    width: 50%;
+  }
+
+  .form-group input:focus ~ label {
+    color: #5264AE;
+  }
+
+  .btn-primary {
+    background-color: #007bff;
+    border: none;
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+</style>
+
+<div class="register-card">
+  <h1 class="reg">Register</h1>
+  <form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+      {{ form.username.label_tag }}
+      {{ form.username }}
+      <span class="bar"></span>
+    </div>
+    <div class="form-group">
+      {{ form.email.label_tag }}
+      {{ form.email }}
+      <span class="bar"></span>
+    </div>
+    <div class="form-group">
+      {{ form.password1.label_tag }}
+      {{ form.password1 }}
+      <span class="bar"></span>
+    </div>
+    <div class="form-group">
+      {{ form.password2.label_tag }}
+      {{ form.password2 }}
+      <span class="bar"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Register</button>
+  </form>
+</div>
+
+{% block latest_recipes %}
+<!-- No latest recipes on this page -->
+{% endblock %}
+{% endblock %}

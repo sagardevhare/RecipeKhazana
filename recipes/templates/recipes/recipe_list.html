@@ -1,0 +1,24 @@
+{% extends 'recipes/base.html' %}
+
+{% block content %}
+<h1>Recipes</h1>
+<div class="row">
+    {% for recipe in recipes %}
+    <div class="col-md-4 mb-4" >
+        <div class="card">
+            <img src="{{ recipe.image.url }}" class="card-img-top" alt="{{ recipe.title }}">
+            <div class="card-body">
+                <h5 class="card-title">{{ recipe.title }}</h5>
+                <p class="card-text">{{ recipe.description|truncatewords:20 }}</p>
+                <a href="{% url 'recipe_detail' recipe.pk %}" class="btn btn-primary">View Recipe</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<div class="row mt-4">
+    <div class="col text-center">
+        <a href="{% url 'recipe_list' %}" class="btn btn-outline-primary">Show More</a>
+    </div>
+</div>
+{% endblock %}

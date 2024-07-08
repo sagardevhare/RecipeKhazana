@@ -1,0 +1,17 @@
+{% extends 'recipes/base.html' %}
+{% block search_bar %}
+<!-- No search bar on this page -->
+{% endblock %}
+
+{% block content %}
+<h1>Delete Recipe</h1>
+<p>Are you sure you want to delete "{{ recipe.title }}"?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Yes, delete</button>
+    <a href="{% url 'recipe_detail' recipe.pk %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% block latest_recipes %}
+<!-- No latest recipes on this page -->
+{% endblock %}
+{% endblock %}
